@@ -80,7 +80,16 @@ builder.add_conditional_edges(
 builder.add_edge("tools", "assistant")
 alfred = builder.compile()
 
-response = alfred.invoke({"messages": "What's the weather like in Paris tonight? Will it be suitable for our fireworks display?"})
+# First interaction
+response = alfred.invoke({"messages": [HumanMessage(content="Tell me about 'Lady Ada Lovelace'. What's her background and how is she related to me?")]})
+
+
+print("🎩 Alfred's Response:")
+print(response['messages'][-1].content)
+print()
+
+# Second interaction (referencing the first)
+response = alfred.invoke({"messages": response["messages"] + [HumanMessage(content="What projects is she currently working on?")]})
 
 print("🎩 Alfred's Response:")
 print(response['messages'][-1].content)
